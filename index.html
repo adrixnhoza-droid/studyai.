@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyAI — Your AI Study Buddy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f8fc;
+      color: #111827;
+    }
+
+    nav {
+      height: 72px;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7%;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .logo span {
+      color: #5865f2;
+    }
+
+    .links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: #667085;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .links a:hover {
+      color: #5865f2;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 10px;
+    }
+
+    .login {
+      background: transparent;
+      padding: 10px 15px;
+    }
+
+    .start {
+      background: #5865f2;
+      color: white;
+      padding: 11px 18px;
+    }
+
+    .start:hover {
+      background: #4752c4;
+    }
+
+    .hero {
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: auto;
+      padding: 80px 30px;
+      gap: 60px;
+    }
+
+    .hero-text {
+      max-width: 580px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #eef0ff;
+      color: #5865f2;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: 64px;
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 25px;
+    }
+
+    h1 span {
+      color: #5865f2;
+    }
+
+    .hero-text p {
+      color: #667085;
+      font-size: 18px;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .primary {
+      background: #5865f2;
+      color: white;
+      padding: 15px 23px;
+      font-size: 15px;
+    }
+
+    .secondary {
+      background: white;
+      border: 1px solid #e5e7eb;
+      padding: 15px 23px;
+      font-size: 15px;
+    }
+
+    .free {
+      margin-top: 25px;
+      font-size: 13px;
+      color: #98a2b3;
+    }
+
+    /* Dashboard preview */
+
+    .preview {
+      width: 480px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: 0 25px 70px rgba(40, 50, 100, .15);
+      transform: rotate(1deg);
+    }
+
+    .preview-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .mini-logo {
+      font-weight: bold;
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      background: #eef0ff;
+      color: #5865f2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .welcome small {
+      color: #98a2b3;
+    }
+
+    .welcome h2 {
+      margin-top: 5px;
+      margin-bottom: 18px;
+    }
+
+    .goal {
+      background: #f1f3ff;
+      padding: 18px;
+      border-radius: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .goal small {
+      color: #667085;
+    }
+
+    .goal strong {
+      display: block;
+      margin-top: 5px;
+    }
+
+    .percent {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: conic-gradient(#5865f2 80%, #dfe3f5 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .percent::after {
+      content: "";
+      position: absolute;
+      width: 43px;
+      height: 43px;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .percent span {
+      z-index: 1;
+    }
+
+    .quick {
+      margin-top: 25px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .tool {
+      padding: 17px;
+      border-radius: 14px;
+    }
+
+    .tool div {
+      font-size: 22px;
+      margin-bottom: 7px;
+    }
+
+    .tool strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .tool small {
+      color: #7b8495;
+      font-size: 10px;
+    }
+
+    .blue { background: #eef3ff; }
+    .purple { background: #f2edff; }
+    .orange { background: #fff3e5; }
+    .green { background: #e9f8ef; }
+
+    /* Features */
+
+    section {
+      max-width: 1150px;
+      margin: auto;
+      padding: 100px 30px;
+    }
+
+    .section-title {
+      text-align: center;
+      max-width: 650px;
+      margin: auto auto 50px;
+    }
+
+    .section-title h2 {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .section-title h2 span {
+      color: #5865f2;
+    }
+
+    .section-title p {
+      color: #667085;
+      line-height: 1.7;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .feature {
+      padding: 30px;
+      border-radius: 22px;
+      min-height: 250px;
+    }
+
+    .feature-icon {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    .feature h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #667085;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* CTA */
+
+    .cta {
+      max-width: 1050px;
+      margin: 50px auto 100px;
+      background: linear-gradient(135deg, #18234b, #34236b);
+      color: white;
+      padding: 80px 30px;
+      text-align: center;
+      border-radius: 30px;
+    }
+
+    .cta h2 {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      color: #c5cbe0;
+      margin-bottom: 25px;
+    }
+
+    .cta button {
+      background: white;
+      color: #3445a5;
+      padding: 15px 24px;
+    }
+
+    footer {
+      border-top: 1px solid #e5e7eb;
+      padding: 35px 7%;
+      display: flex;
+      justify-content: space-between;
+      color: #98a2b3;
+      font-size: 12px;
+    }
+
+    @media (max-width: 850px) {
+
+      .links {
+        display: none;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .preview {
+        width: 100%;
+        max-width: 480px;
+      }
+
+      h1 {
+        font-size: 50px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 500px) {
+
+      .nav-buttons .login {
+        display: none;
+      }
+
+      .hero {
+        padding: 60px 20px;
+      }
+
+      h1 {
+        font-size: 43px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      section {
+        padding: 70px 20px;
+      }
+
+      .section-title h2,
+      .cta h2 {
+        font-size: 35px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+
+  <nav>
+    <a class="logo" href="#">Study<span>AI</span></a>
+
+    <div class="links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#subjects">Subjects</a>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="login" onclick="login()">Log in</button>
+      <button class="start" onclick="startStudying()">Get Started →</button>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+
+  <div class="hero">
+
+    <div class="hero-text">
+
+      <div class="badge">✦ Your free AI study buddy</div>
+
+      <h1>
+        Study smarter.<br>
+        <span>Not harder.</span>
+      </h1>
+
+      <p>
+        Understand difficult topics, practice with smart quizzes,
+        make flashcards and stay on track — all in one place.
+      </p>
+
+      <div class="hero-actions">
+
+        <button class="primary" onclick="startStudying()">
+          Start Studying →
+        </button>
+
+        <button class="secondary" onclick="showHow()">
+          ▶ See how it works
+        </button>
+
+      </div>
+
+      <div class="free">
+        ✓ 100% free &nbsp;&nbsp; ✓ No credit card
+      </div>
+
+    </div>
+
+
+    <!-- DASHBOARD PREVIEW -->
+
+    <div class="preview">
+
+      <div class="preview-top">
+
+        <div class="mini-logo">
+          🧠 StudyAI
+        </div>
+
+        <div class="avatar">
+          A
+        </div>
+
+      </div>
+
+      <div class="welcome">
+
+        <small>Monday, October 5</small>
+
+        <h2>
+          Good afternoon 👋
+        </h2>
+
+      </div>
+
+
+      <div class="goal">
+
+        <div>
+          <small>Today's goal</small>
+          <strong>40 / 50 XP</strong>
+        </div>
+
+        <div class="percent">
+          <span>80%</span>
+        </div>
+
+      </div>
+
+
+      <div class="quick">
+        Quick study
+      </div>
+
+
+      <div class="tools">
+
+        <div class="tool blue">
+          <div>🤖</div>
+          <strong>Ask AI</strong>
+          <small>Get help</small>
+        </div>
+
+        <div class="tool purple">
+          <div>📝</div>
+          <strong>Make Quiz</strong>
+          <small>Practice</small>
+        </div>
+
+        <div class="tool orange">
+          <div>🃏</div>
+          <strong>Flashcards</strong>
+          <small>Revise</small>
+        </div>
+
+        <div class="tool green">
+          <div>📄</div>
+          <strong>My Notes</strong>
+          <small>Study</small>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- FEATURES -->
+
+  <section id="features">
+
+    <div class="section-title">
+
+      <div class="badge">Everything you need</div>
+
+      <h2>
+        One place to <span>actually learn.</span>
+      </h2>
+
+      <p>
+        StudyAI brings your most useful study tools together
+        so you can spend less time setting up and more time learning.
+      </p>
+
+    </div>
+
+
+    <div class="features">
+
+      <div class="feature blue">
+
+        <div class="feature-icon">🤖</div>
+
+        <h3>AI Tutor</h3>
+
+        <p>
+          Ask questions and get explanations made for your
+          year level. If you're stuck, ask for a hint instead
+          of jumping straight to the answer.
+        </p>
+
+      </div>
+
+
+      <div class="feature purple">
+
+        <div class="feature-icon">📝</div>
+
+        <h3>Smart Quizzes</h3>
+
+        <p>
+          Choose a subject, topic and difficulty.
+          StudyAI creates practice questions for you.
+        </p>
+
+      </div>
+
+
+      <div class="feature orange">
+
+        <div class="feature-icon">🃏</div>
+
+        <h3>Flashcards</h3>
+
+        <p>
+          Turn your notes into flashcards and focus
+          on the topics you find hardest.
+        </p>
+
+      </div>
+
+
+      <div class="feature green">
+
+        <div class="feature-icon">📊</div>
+
+        <h3>Track Progress</h3>
+
+        <p>
+          See your scores, streaks and subject progress
+          so you know what to revise next.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- HOW IT WORKS -->
+
+  <section id="how">
+
+    <div class="section-title">
+
+      <div class="badge">Simple by design</div>
+
+      <h2>
+        Study in <span>3 easy steps.</span>
+      </h2>
+
+    </div>
+
+
+    <div class="features">
+
+      <div class="feature blue">
+
+        <div class="feature-icon">01</div>
+
+        <h3>Pick a topic</h3>
+
+        <p>
+          Tell StudyAI what you're learning or upload your notes.
+        </p>
+
+      </div>
+
+
+      <div class="feature purple">
+
+        <div class="feature-icon">02</div>
+
+        <h3>Learn your way</h3>
+
+        <p>
+          Ask the AI, make a quiz, create flashcards or use Study Mode.
+        </p>
+
+      </div>
+
+
+      <div class="feature green">
+
+        <div class="feature-icon">03</div>
+
+        <h3>Get better</h3>
+
+        <p>
+          Track your progress and focus on the topics you need most.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- SUBJECTS -->
+
+  <section id="subjects">
+
+    <div class="section-title">
+
+      <div class="badge">Made for students</div>
+
+      <h2>
+        Whatever you're studying, <span>we've got you.</span>
+      </h2>
+
+      <p>
+        Mathematics, Science, English, History and more.
+      </p>
+
+    </div>
+
+
+    <div class="features">
+
+      <div class="feature blue">
+        <div class="feature-icon">📐</div>
+        <h3>Mathematics</h3>
+        <p>Fractions, algebra, geometry, percentages and more.</p>
+      </div>
+
+      <div class="feature purple">
+        <div class="feature-icon">🔬</div>
+        <h3>Science</h3>
+        <p>Biology, chemistry, physics and scientific concepts.</p>
+      </div>
+
+      <div class="feature orange">
+        <div class="feature-icon">📖</div>
+        <h3>English</h3>
+        <p>Writing, reading, grammar and literature.</p>
+      </div>
+
+      <div class="feature green">
+        <div class="feature-icon">🌎</div>
+        <h3>History & Geography</h3>
+        <p>Explore people, places, events and the world around us.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CTA -->
+
+  <div class="cta">
+
+    <h2>
+      Make studying feel <span>easier.</span>
+    </h2>
+
+    <p>
+      Start building your own study workspace with StudyAI.
+    </p>
+
+    <button onclick="startStudying()">
+      Start Studying — It's Free →
+    </button>
+
+  </div>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div>
+      🧠 <strong>StudyAI</strong>
+      <br>
+      Your free AI-powered study buddy.
+    </div>
+
+    <div>
+      © 2026 StudyAI
+    </div>
+
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+
+    function startStudying() {
+      alert(
+        "🚀 Welcome to StudyAI!\n\n" +
+        "The dashboard is the next part we're going to build."
+      );
+    }
+
+    function login() {
+      alert(
+        "🔐 Login\n\n" +
+        "We'll build the account system next."
+      );
+    }
+
+    function showHow() {
+      document
+        .getElementById("how")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+    }
+
+  </script>
+
+</body>
+</html>
